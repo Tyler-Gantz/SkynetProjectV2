@@ -1,5 +1,3 @@
-// SkynetProject.cpp : Defines the entry point for the console application.
-//
 
 //Include all libraries needed
 #include "stdafx.h"
@@ -20,11 +18,10 @@ int main()
 	int enemyLocation = rand() % searchGridHighNumber + searchGridLowNumber;
 	int constGridHigh = 64;
 	int constGridLow = 1;
-	int randPredictionCount = 1;
-	int numCompletedSearches = 0;
+	int randPredictionCount = 0;
 	int targetLocationPredictionCounterL = 0;
 	int hGuesses = 0;
-	int randGuesses = 0;
+	int numCompletesearches = 0;
 
 
 
@@ -38,7 +35,10 @@ int main()
 
 	// set if the target is found
 	bool targetFound = false;
-
+	bool rtargetFound = false;
+	bool htargetFound = false;
+	bool ltargetFound = false;
+	bool stargetFound = false;
 
 	//Run the program while the enemy is not found
 	while (targetFound == false)
@@ -50,43 +50,50 @@ int main()
 
 		//create linear search system
 		int one = 1;
-			int targetLocationPredictionL = (0 + targetLocationPredictionCounter);
+		int targetLocationPredictionL = (0 + targetLocationPredictionCounter);
 
 		//create random guess
 		int randomTargetLocationPrediction = rand() % constGridHigh + constGridLow;
 
 		//create human guess
 		int humanLocationPrediction;
-		cout << "Enter your guess.";
-		cin >> humanLocationPrediction;
+		
 
 
 
 
-			//print the guess number 
-			cout << "===========================================================" << endl;
+		//print the guess number 
+		cout << "===========================================================" << endl;
 		cout << "US Anti-Missle Protection Program sending out ping #" << targetLocationPredictionCounter << endl;
 
-		//If the guess is higher remove all numbers plus the guessed number and reguess and adds one to the guesses
+		if (stargetFound == true) {
+			cout << "US anti-missle program has found the number already waiting on the other programs" << endl;
+		}
+		else {
+			//If the guess is higher remove all numbers plus the guessed number and reguess and adds one to the guesses
 		if (targetLocationPrediction > enemyLocation) {
 			searchGridHighNumber = targetLocationPrediction - 1;
-			cout << "The target location predeiction of " << targetLocationPrediction << " was higher then the actual location\n";
+			cout << "The target location predeiction of " << targetLocationPrediction << " was higher then the actual location" << endl;
 			cout << "The program is now searching in areas below  = " << searchGridHighNumber << endl;
+			numCompletesearches + 1;
+
 		}
 		//If the guess is lower remove all numbers plus the guessed number and reguess and adds one to the guesses
 		else if (targetLocationPrediction < enemyLocation) {
 			searchGridLowNumber = targetLocationPrediction + 1;
-			cout << "The target location predeiction of " << targetLocationPrediction << " was lower then the actual location\n";
+			cout << "The target location predeiction of " << targetLocationPrediction << " was lower then the actual location" << endl;
 			cout << "The program is now searching in areas above = " << searchGridLowNumber << endl;
+			numCompletesearches + 1;
 		}
 		//if the guess is correct print the location and how many tries it took
 		else if (targetLocationPrediction == enemyLocation)
 		{
 			cout << "US Anti-Missle protection had found the missle " << endl;
-			numCompletedSearches++;
+			stargetFound = true;
+			numCompletesearches + 1;
 		}
-		
-		
+		}
+
 
 
 
@@ -98,73 +105,88 @@ int main()
 
 		// create the display method for linear search
 		cout << "Linear guess is " << targetLocationPredictionL;
+		
+		if (ltargetFound == true) {
+			cout << "Linear has found the number already waiting on the other programs" << endl;
+		}
+		else {
 		if (targetLocationPredictionL == enemyLocation) {
+			targetLocationPredictionCounterL++;
 			cout << "Linear search algorithm has found the missle at " << targetLocationPredictionL;
-				cout << "US Anti-Missle Protection Program took " << targetLocationPredictionCounterL << " tries to find the Missle." << endl;
-				numCompletedSearches++;
+			cout << "US Anti-Missle Protection Program took " << targetLocationPredictionCounterL << " tries to find the Missle." << endl;
+			ltargetFound = true;
 		}
 		else if (targetLocationPredictionL < enemyLocation) {
-			cout <<" Linear search algorithm was unable to find the missle, moving on the the next zone" << endl;
-			targetLocationPredictionCounterL++;
+			cout << " Linear search algorithm was unable to find the missle, moving on the the next zone" << endl;
+			targetLocationPredictionCounterL + 1;
 		}
-
+		}
 
 
 
 
 
 		//Create random guess display system
+		if (rtargetFound == true) {
+			cout << "Random has found the number already waiting on the other programs";
+		}
+		else {
+
 		if (randomTargetLocationPrediction > enemyLocation) {
 			searchGridHighNumber = randomTargetLocationPrediction - 1;
 			cout << "The target location predeiction of " << randomTargetLocationPrediction << " was higher then the actual location" << endl;
-			
+			randPredictionCount + 1;
 		}
 		//If the guess is lower remove all numbers plus the guessed number and reguess and adds one to the guesses
 		else if (randomTargetLocationPrediction < enemyLocation) {
 			searchGridLowNumber = randomTargetLocationPrediction + 1;
 			cout << "The target location predeiction of " << randomTargetLocationPrediction << " was lower then the actual location" << endl;
-			
+			randPredictionCount + 1;
 		}
 		//if the guess is correct print the location and how many tries it took
 		else if (randomTargetLocationPrediction == enemyLocation)
 		{
 			cout << "Random guess has found the missle" << endl;
-			numCompletedSearches++;
+			randPredictionCount + 1;
+			rtargetFound = true;
 		}
-
+		}
 
 		//create player guess method
+		if (htargetFound == true) {
+			cout << "Human has found the number already waiting on the other programs";
+		}
+		else if (htargetFound == false) {
+			cout << "Enter your guess." << endl;
+			cin >> humanLocationPrediction;
+			hGuesses + 1;
+
 		if (humanLocationPrediction > enemyLocation) {
-			cout << "guess was too high.";
+			cout << "guess was too high." << endl;
+			
 		}
 		else if (humanLocationPrediction < enemyLocation) {
-			cout << "guess was too low.";
+			cout << "guess was too low." << endl;
+			
 		}
 		else if (humanLocationPrediction == enemyLocation) {
 			cout << "human found missle at" << humanLocationPrediction << endl;
-			numCompletedSearches++;
+			htargetFound = true;
 
 		}
+		}
 
-		if (numCompletedSearches == 4) {
+		if ((rtargetFound == true) && (htargetFound == true) && (ltargetFound == true) && (stargetFound == true)) {
+			cout <<"_______________________________________________________________________________________________________" << endl;
+			cout << "The Missle was found at zone #" << enemyLocation << endl;
+			cout << "It took the Anti-Missle protection system took " << targetLocationPredictionCounter << " tries to find the missle. " << endl;
+			cout << "It took linear search system " << targetLocationPredictionCounterL << " tries to find the missle. " << endl;
+			cout << "It took random guessing system" << randPredictionCount << " tries to find the missle" << endl;
+			cout << "It took Human guesses " << hGuesses << " tries to find the missle" << endl;
 			targetFound = true;
 		}
 	}
 
 	system("pause");
-	cout << "The Missle was found at zone #" << enemyLocation << endl ; 
-	cout << "It took the Anti-Missle protection system took " << targetLocationPredictionCounter << " tries to find the missle. " << endl;
-	cout << "It took linear search system " << targetLocationPredictionCounterL << " tries to find the missle. " << endl;
-	cout << "It took random guessing system" << randGuesses << " tries to find the missle" << endl;
-	cout << "It took Human guesses " << hGuesses << " tries to find the missle" << endl;
-
 	return 0;
 }
-
-
-
-
-
-// it doesnt quite work and I cant figure out whats wrong 
-//if you see what I did wrong while grading tell me in the comments for my grade on the assignment
-//I am happy to fix it to improve my grade if you can find the issue
